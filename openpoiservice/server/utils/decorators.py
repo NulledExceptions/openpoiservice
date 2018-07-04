@@ -1,7 +1,6 @@
 # openpoiservice/server/utils/decorators.py
 
 import time
-import logging
 import cProfile
 import functools
 import os
@@ -11,7 +10,9 @@ import traceback
 from functools import wraps
 from multiprocessing import Process, Queue
 
-logger = logging.getLogger(__name__)
+from openpoiservice.server.utils import logger
+
+log = logger.get_logger(__name__)
 
 
 def processify(func):
@@ -108,7 +109,7 @@ def timeit(method):
             name = kw.get('log_name', method.__name__.upper())
             kw['log_time'][name] = int((te - ts) * 1000)
         else:
-            logger.info('%r  %2.2f ms' % (method.__name__, (te - ts) * 1000))
+            log.info('%r  %2.2f ms' % (method.__name__, (te - ts) * 1000))
         return result
 
     return timed

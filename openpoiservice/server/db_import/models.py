@@ -2,14 +2,14 @@
 
 from openpoiservice.server import db, ops_settings
 from geoalchemy2 import Geography
-import logging
+from openpoiservice.server.utils import logger
 
-logger = logging.getLogger(__name__)
+log = logger.get_logger(__name__)
 
 
 class Pois(db.Model):
     __tablename__ = ops_settings['provider_parameters']['table_name']
-    logger.info('table name for pois: {}'.format(__tablename__))
+    log.info('table name for pois: {}'.format(__tablename__))
 
     uuid = db.Column(db.LargeBinary, primary_key=True)
     osm_id = db.Column(db.BigInteger, nullable=False, index=True)
@@ -29,7 +29,7 @@ class Pois(db.Model):
 
 class Categories(db.Model):
     __tablename__ = ops_settings['provider_parameters']['table_name'] + "_categories"
-    logger.info('Table name for categories: {}'.format(__tablename__))
+    log.info('Table name for categories: {}'.format(__tablename__))
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uuid = db.Column(db.LargeBinary, db.ForeignKey('{}.uuid'.format(ops_settings['provider_parameters']['table_name'])),
@@ -42,7 +42,7 @@ class Categories(db.Model):
 
 class Tags(db.Model):
     __tablename__ = ops_settings['provider_parameters']['table_name'] + "_tags"
-    logger.info('Table name for tags: {}'.format(__tablename__))
+    log.info('Table name for tags: {}'.format(__tablename__))
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uuid = db.Column(db.LargeBinary, db.ForeignKey('{}.uuid'.format(ops_settings['provider_parameters']['table_name'])),

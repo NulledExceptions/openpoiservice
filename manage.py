@@ -4,11 +4,10 @@ import unittest
 from flask.cli import FlaskGroup
 from openpoiservice.server import create_app, db
 from openpoiservice.server.db_import import parser
+from openpoiservice.server.utils import logger
 import os
-import logging
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+log = logger.get_logger(__name__)
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -52,7 +51,7 @@ def import_data():
             if fname.endswith('.osm.pbf') or fname.endswith('.osm'):
                 osm_files.append(os.path.join(dirName, fname))
 
-    logger.info("Starting to import OSM data...{}".format(osm_files))
+    log.info("Starting to import OSM data...{}".format(osm_files))
     parser.run_import(osm_files)
 
 

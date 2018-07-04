@@ -5,9 +5,9 @@ from openpoiservice.server import categories_tools, ops_settings
 from openpoiservice.server.db_import.models import Pois, Tags, Categories
 from openpoiservice.server.db_import.objects import PoiObject, TagsObject
 from openpoiservice.server.utils.decorators import get_size
+from openpoiservice.server.utils import logger
 import shapely as shapely
 from shapely.geometry import Point, Polygon, LineString, MultiPoint
-import logging
 import uuid
 import time
 import sys
@@ -15,7 +15,7 @@ from timeit import Timer
 from bisect import bisect_left
 from collections import deque
 
-logger = logging.getLogger(__name__)
+log = logger.get_logger(__name__)
 
 
 class WayObject(object):

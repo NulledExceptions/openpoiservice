@@ -19,6 +19,9 @@ ENV LC_ALL en_US.UTF-8
 # Setup flask application
 RUN mkdir -p /deploy/app
 
+# Setup log file
+ENV OPS_LOG=/
+
 COPY gunicorn_config.py /deploy/gunicorn_config.py
 COPY manage.py /deploy/app/manage.py
 

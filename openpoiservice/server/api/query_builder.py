@@ -2,6 +2,7 @@
 
 from openpoiservice.server import db
 from openpoiservice.server import categories_tools, ops_settings
+from openpoiservice.server.utils import logger
 import geoalchemy2.functions as geo_func
 from geoalchemy2.types import Geography, Geometry
 from geoalchemy2.elements import WKBElement, WKTElement
@@ -11,10 +12,9 @@ from sqlalchemy.sql.expression import type_coerce
 from sqlalchemy import func, cast, Integer, ARRAY
 from sqlalchemy import dialects
 import geojson as geojson
-import logging
 from timeit import default_timer as timer
 
-logger = logging.getLogger(__name__)
+log = logger.get_logger(__name__)
 
 
 class QueryBuilder(object):
@@ -43,7 +43,7 @@ class QueryBuilder(object):
 
         geom_filters, geom = self.generate_geom_filters(params['geometry'], Pois)
 
-        logger.debug('geometry filters: {}, geometry: {}'.format(geom_filters, geom))
+        log.debug('geometry filters: {}, geometry: {}'.format(geom_filters, geom))
 
         category_filters = []
         if 'filters' in params:
@@ -220,7 +220,7 @@ class QueryBuilder(object):
 
             places_dict["places"]["total_count"] += poi_group.count
 
-        logger.info('Number of poi stats groups: {}'.format(len(places_dict)))
+        log.info('Number of poi stats groups: {}'.format(len(places_dict)))
 
         return places_dict
 
@@ -275,6 +275,6 @@ class QueryBuilder(object):
 
         feature_collection = geojson.FeatureCollection(geojson_features)
 
-        logger.info("Amount of features {}".format(len(geojson_features)))
+        log.info("Amount of features {}".format(len(geojson_features)))
 
         return feature_collection
